@@ -7,7 +7,7 @@ class WidgetsToImageController {
   GlobalKey containerKey = GlobalKey();
 
   /// to capture widget to image by GlobalKey in RenderRepaintBoundary
-  Future<Uint8List?> capture() async {
+  Future<ByteData?> capture() async {
     try {
       /// boundary widget by GlobalKey
       RenderRepaintBoundary? boundary = containerKey.currentContext
@@ -17,9 +17,7 @@ class WidgetsToImageController {
       final image = await boundary!.toImage(pixelRatio: 6);
 
       /// set ImageByteFormat
-      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      final pngBytes = byteData?.buffer.asUint8List();
-      return pngBytes;
+      return await image.toByteData(format: ui.ImageByteFormat.png);
     } catch (e) {
       rethrow;
     }
